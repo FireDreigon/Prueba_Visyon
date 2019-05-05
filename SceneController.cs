@@ -14,12 +14,13 @@ public class SceneController : MonoBehaviour
 
     public List<Film> allFilms= new List<Film>();
     public List<Picture> allPicture= new List<Picture>();
+
     public Video360Controller video360Controller;
+
 
     // Use this for initialization
     void Start()
     {
-        
         Sprite[] Image2D = Resources.LoadAll<Sprite>("Images/2D");    
         foreach (var newPicture in Image2D)
         {
@@ -126,7 +127,7 @@ public class SceneController : MonoBehaviour
             case GroupType.Pictures360:
                 break;
             case GroupType.Videos360:
-                video360Controller.LoadVideo360(allFilms[id].file);
+                video360Controller.ActivateVideo(allFilms[id].file);
                 break;
             case GroupType.Return_MaxGroupType:
                 break;
