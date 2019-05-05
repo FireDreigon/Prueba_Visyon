@@ -15,3 +15,5 @@ _book
 *.mobi
 *.pdf
 /Visyon_Test/Library
+/Visyon_Test/Temp
+/Visyon_Test/.vs/Visyon_Test
