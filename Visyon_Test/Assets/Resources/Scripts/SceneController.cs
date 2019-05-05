@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
+using UnityEngine.Video; 
+
 
 public enum GroupType { Pictures, Videos, Pictures360, Videos360, Return_MaxGroupType }
 public class SceneController : MonoBehaviour
@@ -12,15 +13,14 @@ public class SceneController : MonoBehaviour
 
     public GameObject scrollbar;
 
-    public List<Film> allFilms= new List<Film>();
-    public List<Picture> allPicture= new List<Picture>();
-    public Video360Controller video360Controller;
+    public List<Film> allFilms = new List<Film>();
+    public List<Picture> allPicture = new List<Picture>();
+    public Controller360 controller360;
 
-    // Use this for initialization
-    void Start()
+    // Use this for initialization 
+    void Awake()
     {
-        
-        Sprite[] Image2D = Resources.LoadAll<Sprite>("Images/2D");    
+        Sprite[] Image2D = Resources.LoadAll<Sprite>("Images/2D");
         foreach (var newPicture in Image2D)
         {
             allPicture.Add(new Picture(newPicture.name, newPicture, GroupType.Pictures));
@@ -40,13 +40,11 @@ public class SceneController : MonoBehaviour
         {
             allFilms.Add(new Film(newFilm.name, newFilm, GroupType.Videos360));
         }
-        PrintGroupBtn();
     }
-
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        PrintGroupBtn();
+        ActionBtn(Random.Range(0, allPicture.Count), GroupType.Pictures360);
     }
     public void PrintGroupBtn(GroupType type = GroupType.Return_MaxGroupType)
     {
@@ -74,7 +72,7 @@ public class SceneController : MonoBehaviour
                         break;
                 }
             }
-        }           
+        }
         else
         {
             switch (type)
@@ -87,7 +85,7 @@ public class SceneController : MonoBehaviour
                         {
                             PrintNewBtn(allPicture[i].Type, allPicture[i].Name, i);
                         }
-                    }                    
+                    }
                     break;
                 case GroupType.Videos:
                 case GroupType.Videos360:
@@ -104,10 +102,10 @@ public class SceneController : MonoBehaviour
             if (Grid.transform.childCount >= (int)GroupType.Return_MaxGroupType)
                 scrollbar.SetActive(true);
         }
-           
+
     }
 
-    public void PrintNewBtn( GroupType btnType, string nameBtn, int id=-1)
+    public void PrintNewBtn(GroupType btnType, string nameBtn, int id = -1)
     {
         GameObject Newbtn = Instantiate(btnPf, Grid.transform, false);
         Newbtn.GetComponentInChildren<Text>().text = nameBtn;
@@ -124,9 +122,10 @@ public class SceneController : MonoBehaviour
             case GroupType.Videos:
                 break;
             case GroupType.Pictures360:
+                controller360.LoadImage360(allPicture[id].file);
                 break;
             case GroupType.Videos360:
-                video360Controller.LoadVideo360(allFilms[id].file);
+                controller360.LoadVideo360(allFilms[id].file);
                 break;
             case GroupType.Return_MaxGroupType:
                 break;
