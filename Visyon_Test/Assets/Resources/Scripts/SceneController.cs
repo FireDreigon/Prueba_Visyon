@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video; 
+using UnityEngine.Video;
 
 
 public enum GroupType { Pictures, Videos, Pictures360, Videos360, Return_MaxGroupType }
@@ -10,9 +10,6 @@ public class SceneController : MonoBehaviour
 {
     public GameObject btnPf;
     public GameObject Grid;
-
-    public GameObject scrollbar;
-
     public List<Film> allFilms = new List<Film>();
     public List<Picture> allPicture = new List<Picture>();
     public Controller360 controller360;
@@ -43,6 +40,14 @@ public class SceneController : MonoBehaviour
     }
     void Start()
     {
+        Picture FirstPicture;
+        do
+        {
+            FirstPicture = allPicture[Random.Range(0, allPicture.Count)];
+            if (FirstPicture.Type == GroupType.Pictures)
+                ActionBtn(allPicture.IndexOf(FirstPicture), FirstPicture.Type);
+        }
+        while (FirstPicture.Type != GroupType.Pictures);
         PrintGroupBtn();
     }
     public void PrintGroupBtn(GroupType type = GroupType.Return_MaxGroupType)
@@ -50,7 +55,6 @@ public class SceneController : MonoBehaviour
         ClearGrid();
         if (type == GroupType.Return_MaxGroupType)
         {
-            scrollbar.SetActive(false);
             for (int i = 0; i < (int)GroupType.Return_MaxGroupType; i++)
             {
                 switch ((GroupType)i)
@@ -98,8 +102,6 @@ public class SceneController : MonoBehaviour
                     break;
             }
             PrintNewBtn(GroupType.Return_MaxGroupType, "Return");
-            if (Grid.transform.childCount >= (int)GroupType.Return_MaxGroupType)
-                scrollbar.SetActive(true);
         }
 
     }

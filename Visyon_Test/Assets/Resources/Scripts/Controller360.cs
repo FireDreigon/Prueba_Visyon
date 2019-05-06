@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Video;
+﻿using UnityEngine.Video;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Controller360 : MonoBehaviour
+[System.Serializable]
+public class Controller360 
 {
     public Material SkyboxMaterial;
     public RenderTexture render;
     public VideoPlayer videoPlayer;
-    public Image ImageLoad;
+    public MeshRenderer ImageLoad;
  
     public void LoadVideo360(VideoClip video)
     {       
         videoPlayer.Stop();
-        videoPlayer.renderMode = VideoRenderMode.CameraFarPlane;
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         SkyboxMaterial.SetTexture("_MainTex", render);
         videoPlayer.clip = video;
         ImageLoad.gameObject.SetActive(false);
@@ -42,6 +40,6 @@ public class Controller360 : MonoBehaviour
         videoPlayer.Stop();
         videoPlayer.gameObject.SetActive(false);
         ImageLoad.gameObject.SetActive(true);
-        ImageLoad.sprite = sprite;
+        ImageLoad.material.SetTexture("_MainTex", sprite.texture);
     }
 }
