@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Visyon_Test",
+    "\\Visyon_Test\\Assets",
+    "\\Visyon_Test\\Assets\\Resources",
+    "\\Visyon_Test\\Assets\\Resources\\Scenes"
   ],
+  "SelectedNode": "\\Visyon_Test\\Assets\\Resources\\Scenes\\Test.unity",
   "PreviewInSolutionExplorer": false
 }

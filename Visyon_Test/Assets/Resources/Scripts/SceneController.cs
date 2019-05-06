@@ -44,7 +44,6 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         PrintGroupBtn();
-        ActionBtn(Random.Range(0, allPicture.Count), GroupType.Pictures360);
     }
     public void PrintGroupBtn(GroupType type = GroupType.Return_MaxGroupType)
     {
@@ -118,8 +117,10 @@ public class SceneController : MonoBehaviour
         switch (btnType)
         {
             case GroupType.Pictures:
+                controller360.LoadImage2D(allPicture[id].file);
                 break;
             case GroupType.Videos:
+                controller360.LoadVideo2D(allFilms[id].file);
                 break;
             case GroupType.Pictures360:
                 controller360.LoadImage360(allPicture[id].file);
