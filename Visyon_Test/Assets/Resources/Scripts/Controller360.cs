@@ -29,9 +29,10 @@ public class Controller360
     public void LoadVideo2D(VideoClip video)
     {       
         videoPlayer.Stop();
-        videoPlayer.renderMode = VideoRenderMode.CameraFarPlane;
+        videoPlayer.renderMode = VideoRenderMode.MaterialOverride;
+        videoPlayer.targetMaterialRenderer = ImageLoad;
         videoPlayer.clip = video;
-        ImageLoad.gameObject.SetActive(false);
+        ImageLoad.gameObject.SetActive(true);
         videoPlayer.gameObject.SetActive(true);
         videoPlayer.Play();
     }

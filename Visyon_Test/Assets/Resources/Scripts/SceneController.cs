@@ -60,10 +60,10 @@ public class SceneController : MonoBehaviour
                 switch ((GroupType)i)
                 {
                     case GroupType.Pictures:
-                        PrintNewBtn(GroupType.Pictures, "Imagenes 2D");
+                        PrintNewBtn(GroupType.Pictures, "Imagenes");
                         break;
                     case GroupType.Videos:
-                        PrintNewBtn(GroupType.Videos, "Videos 2D");
+                        PrintNewBtn(GroupType.Videos, "Videos");
                         break;
                     case GroupType.Pictures360:
                         PrintNewBtn(GroupType.Pictures360, "Imagenes 360º");
@@ -113,6 +113,28 @@ public class SceneController : MonoBehaviour
         Newbtn.GetComponent<BtnActionContoller>().sceneController = this;
         Newbtn.GetComponent<BtnActionContoller>().BtnType = btnType;
         Newbtn.GetComponent<BtnActionContoller>().BtnID = id;
+        switch (btnType)
+        {
+            case GroupType.Pictures:
+                Newbtn.GetComponent<Image>().color = Color.red;
+                break;
+            case GroupType.Videos:
+                Newbtn.GetComponent<Image>().color = Color.blue;
+                Newbtn.GetComponentInChildren<Text>().color = Color.white;
+                break;
+            case GroupType.Pictures360:
+                Newbtn.GetComponent<Image>().color = Color.cyan;
+                break;
+            case GroupType.Videos360:
+                Newbtn.GetComponent<Image>().color = Color.magenta;
+                break;
+            case GroupType.Return_MaxGroupType:
+                Newbtn.GetComponent<Image>().color = Color.black;
+                Newbtn.GetComponentInChildren<Text>().color = Color.white;
+                break;
+            default:
+                break;
+        }
     }
     public void ActionBtn(int id, GroupType btnType)
     {
