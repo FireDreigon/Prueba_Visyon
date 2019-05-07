@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video; 
+using UnityEngine.Video;
 
 
 public enum GroupType { Pictures, Videos, Pictures360, Videos360, Return_MaxGroupType }
@@ -10,9 +10,6 @@ public class SceneController : MonoBehaviour
 {
     public GameObject btnPf;
     public GameObject Grid;
-
-    public GameObject scrollbar;
-
     public List<Film> allFilms = new List<Film>();
     public List<Picture> allPicture = new List<Picture>();
     public Controller360 controller360;
@@ -43,15 +40,21 @@ public class SceneController : MonoBehaviour
     }
     void Start()
     {
+        Picture FirstPicture;
+        do
+        {
+            FirstPicture = allPicture[Random.Range(0, allPicture.Count)];
+            if (FirstPicture.Type == GroupType.Pictures)
+                ActionBtn(allPicture.IndexOf(FirstPicture), FirstPicture.Type);
+        }
+        while (FirstPicture.Type != GroupType.Pictures);
         PrintGroupBtn();
-        ActionBtn(Random.Range(0, allPicture.Count), GroupType.Pictures360);
     }
     public void PrintGroupBtn(GroupType type = GroupType.Return_MaxGroupType)
     {
         ClearGrid();
         if (type == GroupType.Return_MaxGroupType)
         {
-            scrollbar.SetActive(false);
             for (int i = 0; i < (int)GroupType.Return_MaxGroupType; i++)
             {
                 switch ((GroupType)i)
@@ -99,8 +102,6 @@ public class SceneController : MonoBehaviour
                     break;
             }
             PrintNewBtn(GroupType.Return_MaxGroupType, "Return");
-            if (Grid.transform.childCount >= (int)GroupType.Return_MaxGroupType)
-                scrollbar.SetActive(true);
         }
 
     }
@@ -118,8 +119,10 @@ public class SceneController : MonoBehaviour
         switch (btnType)
         {
             case GroupType.Pictures:
+                controller360.LoadImage2D(allPicture[id].file);
                 break;
             case GroupType.Videos:
+                controller360.LoadVideo2D(allFilms[id].file);
                 break;
             case GroupType.Pictures360:
                 controller360.LoadImage360(allPicture[id].file);
