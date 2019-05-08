@@ -13,6 +13,7 @@ public class BtnActionContoller:MonoBehaviour
         if(BtnID==-1)
         {
             sceneController.PrintGroupBtn(BtnType);
+            sceneController.CurrentScrollbarValue = 4;
         }
         else
         {

@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System.Linq;
 
 
 public enum GroupType { Pictures, Videos, Pictures360, Videos360, Return_MaxGroupType }
 public class SceneController : MonoBehaviour
 {
-    public GameObject btnPf;
+    public GameObject btnPf, LeftArrow,RightArrow;
     public GameObject Grid;
     public List<Film> allFilms = new List<Film>();
     public List<Picture> allPicture = new List<Picture>();
     public Controller360 controller360;
+    public int CurrentGridChild;
+    public int CurrentScrollbarValue=4;
+    public float ScrollbarSeparateValue;
 
     // Use this for initialization 
     void Awake()
@@ -49,6 +53,10 @@ public class SceneController : MonoBehaviour
         }
         while (FirstPicture.Type != GroupType.Pictures);
         PrintGroupBtn();
+
+        ScrollbarSeparateValue = Grid.GetComponent<HorizontalLayoutGroup>().padding.right +
+                btnPf.GetComponent<RectTransform>().sizeDelta.x +
+                Grid.GetComponent<HorizontalLayoutGroup>().spacing / 2;
     }
     public void PrintGroupBtn(GroupType type = GroupType.Return_MaxGroupType)
     {
@@ -103,6 +111,18 @@ public class SceneController : MonoBehaviour
             }
             PrintNewBtn(GroupType.Return_MaxGroupType, "Return");
         }
+        if (CurrentGridChild == 0)
+            CurrentGridChild = Grid.transform.childCount;
+        else
+            CurrentGridChild = Grid.transform.childCount - CurrentGridChild; 
+
+        if(CurrentScrollbarValue<CurrentGridChild)
+            RightArrow.SetActive(true); 
+        else
+            RightArrow.SetActive(false);
+        LeftArrow.SetActive(false);
+
+
 
     }
 
@@ -157,6 +177,32 @@ public class SceneController : MonoBehaviour
             default:
                 break;
         }
+    } 
+    public void MoveScroll(bool right)
+    {
+        float x;
+        if (right)
+        {
+            
+            LeftArrow.SetActive(true);
+            Vector3 newPos = Grid.GetComponent<RectTransform>().localPosition;
+            newPos.x -= ScrollbarSeparateValue;
+            Grid.GetComponent<RectTransform>().localPosition = newPos;
+            CurrentScrollbarValue++;
+            if (CurrentScrollbarValue >=CurrentGridChild)
+                RightArrow.SetActive(false);
+        }
+        else
+        {
+            RightArrow.SetActive(true);
+            Vector3 newPos = Grid.GetComponent<RectTransform>().localPosition;
+            newPos.x += ScrollbarSeparateValue;
+            Grid.GetComponent<RectTransform>().localPosition = newPos;
+            CurrentScrollbarValue--;
+            if (CurrentScrollbarValue <= 4)
+                LeftArrow.SetActive(false);
+        }
+           
     }
     public void ClearGrid()
     {
